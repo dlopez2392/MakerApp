@@ -13,6 +13,8 @@ import {
   JetBrainsMono_700Bold,
 } from "@expo-google-fonts/jetbrains-mono";
 import * as SplashScreen from "expo-splash-screen";
+import { initializeDatabase } from "../src/core/database/connection";
+import { seedWoodSpecies } from "../src/modules/woodworking/data/seedSpecies";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -28,7 +30,11 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
+    if (fontsLoaded) {
+      initializeDatabase();
+      seedWoodSpecies();
+      SplashScreen.hideAsync();
+    }
   }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;

@@ -7,7 +7,8 @@ const SHOP_SECTIONS = [
   { name: "Inventory", route: "/shop/inventory", description: "Materials, supplies, and consumables" },
   { name: "Clients", route: "/shop/clients", description: "Customer profiles and communication" },
   { name: "Journal", route: "/shop/journal", description: "Daily shop log and time tracking" },
-  { name: "Quotes & Invoices", route: "/shop/quotes", description: "Estimates, billing, and payments" },
+  { name: "Quotes", route: "/shop/quotes", description: "Estimates and proposals" },
+  { name: "Invoices", route: "/shop/invoices", description: "Billing and payments" },
   { name: "Revenue", route: "/shop/revenue", description: "Business analytics and reporting" },
 ];
 

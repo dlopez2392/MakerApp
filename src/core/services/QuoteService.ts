@@ -71,6 +71,19 @@ export const QuoteService = {
   removeLineItem(lineItemId: string): void {
     QuoteLineItemRepository.delete(lineItemId);
   },
+  addTimeBasedLineItem(quoteId: string, description: string, estimatedMinutes: number, hourlyRate: number): LineItem {
+    const hours = estimatedMinutes / 60;
+    const lineTotal = Math.round(hours * hourlyRate * 100) / 100;
+    return this.addLineItem(quoteId, {
+      description,
+      category: "labor",
+      quantity: 1,
+      unitPrice: lineTotal,
+      lineTotal,
+      taxable: true,
+      sortOrder: 0,
+    });
+  },
   addLineItemFromCalculator(quoteId: string, result: CalculatorResult): LineItem {
     const outputs = result.outputsJson as Record<string, unknown>;
     const lineTotal = (outputs.totalCost as number) || (outputs.total as number) || 0;

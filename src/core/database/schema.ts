@@ -184,6 +184,24 @@ export const TABLE_SCHEMAS: Record<string, string> = {
     domestic INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   )`,
+  laser_materials: `CREATE TABLE IF NOT EXISTS laser_materials (
+  id TEXT PRIMARY KEY,
+  category TEXT NOT NULL,
+  material_name TEXT NOT NULL,
+  brand TEXT,
+  thickness_mm REAL NOT NULL,
+  operation TEXT NOT NULL,
+  power_pct REAL NOT NULL,
+  speed_mms REAL NOT NULL,
+  passes INTEGER NOT NULL DEFAULT 1,
+  ppi_frequency INTEGER,
+  focus_offset_mm REAL DEFAULT 0,
+  air_assist INTEGER NOT NULL DEFAULT 1,
+  laser_wattage INTEGER NOT NULL,
+  notes TEXT,
+  source TEXT NOT NULL DEFAULT 'built-in',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
   user_settings: `CREATE TABLE IF NOT EXISTS user_settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -205,6 +223,8 @@ export const INDEX_SCHEMAS: string[] = [
   "CREATE INDEX IF NOT EXISTS idx_invoices_due ON invoices(due_date)",
   "CREATE INDEX IF NOT EXISTS idx_calc_results_module ON calculator_results(module)",
   "CREATE INDEX IF NOT EXISTS idx_calc_results_project ON calculator_results(project_id)",
+  "CREATE INDEX IF NOT EXISTS idx_laser_materials_category ON laser_materials(category)",
+  "CREATE INDEX IF NOT EXISTS idx_laser_materials_operation ON laser_materials(operation)",
 ];
 
 export function getTableNames(): string[] {

@@ -202,6 +202,43 @@ export const TABLE_SCHEMAS: Record<string, string> = {
   source TEXT NOT NULL DEFAULT 'built-in',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 )`,
+  cnc_materials: `CREATE TABLE IF NOT EXISTS cnc_materials (
+  id TEXT PRIMARY KEY,
+  category TEXT NOT NULL,
+  material_name TEXT NOT NULL,
+  sfm_low REAL NOT NULL,
+  sfm_high REAL NOT NULL,
+  chipload_json TEXT NOT NULL,
+  max_doc_pct REAL NOT NULL,
+  coolant TEXT NOT NULL DEFAULT 'none',
+  notes TEXT,
+  source TEXT NOT NULL DEFAULT 'built-in',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
+  cnc_tools: `CREATE TABLE IF NOT EXISTS cnc_tools (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  tool_type TEXT NOT NULL,
+  cut_direction TEXT,
+  diameter_in REAL NOT NULL,
+  shank_diameter_in REAL,
+  flutes INTEGER NOT NULL,
+  tool_material TEXT NOT NULL,
+  max_doc_in REAL,
+  vbit_angle REAL,
+  tip_width_in REAL,
+  notes TEXT,
+  source TEXT NOT NULL DEFAULT 'built-in',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
+  cnc_tool_usage: `CREATE TABLE IF NOT EXISTS cnc_tool_usage (
+  id TEXT PRIMARY KEY,
+  tool_id TEXT NOT NULL,
+  project_id TEXT,
+  minutes_used REAL NOT NULL,
+  notes TEXT,
+  logged_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
   user_settings: `CREATE TABLE IF NOT EXISTS user_settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -225,6 +262,9 @@ export const INDEX_SCHEMAS: string[] = [
   "CREATE INDEX IF NOT EXISTS idx_calc_results_project ON calculator_results(project_id)",
   "CREATE INDEX IF NOT EXISTS idx_laser_materials_category ON laser_materials(category)",
   "CREATE INDEX IF NOT EXISTS idx_laser_materials_operation ON laser_materials(operation)",
+  "CREATE INDEX IF NOT EXISTS idx_cnc_materials_category ON cnc_materials(category)",
+  "CREATE INDEX IF NOT EXISTS idx_cnc_tools_type ON cnc_tools(tool_type)",
+  "CREATE INDEX IF NOT EXISTS idx_cnc_tool_usage_tool ON cnc_tool_usage(tool_id)",
 ];
 
 export function getTableNames(): string[] {

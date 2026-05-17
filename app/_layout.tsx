@@ -16,6 +16,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { initializeDatabase } from "../src/core/database/connection";
 import { seedWoodSpecies } from "../src/modules/woodworking/data/seedSpecies";
 import { seedLaserMaterials } from "../src/modules/laser/data/seedLaserMaterials";
+import { seedCncData } from "../src/modules/cnc/data/seedCncData";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -35,6 +36,7 @@ export default function RootLayout() {
       initializeDatabase();
       seedWoodSpecies();
       seedLaserMaterials();
+      seedCncData();
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);

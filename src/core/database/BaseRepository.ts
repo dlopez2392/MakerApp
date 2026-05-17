@@ -12,7 +12,7 @@ export class BaseRepository<T extends { id: string }> {
   getAll(where?: string, params?: unknown[]): T[] {
     const db = getDatabase();
     const sql = `SELECT * FROM ${this.tableName}${where ? ` WHERE ${where}` : ""} ORDER BY created_at DESC`;
-    const rows = db.getAllSync(sql, params || []) as Row[];
+    const rows = db.getAllSync(sql, (params || []) as any) as Row[];
     return rows.map(this.toModel);
   }
 
@@ -64,7 +64,7 @@ export class BaseRepository<T extends { id: string }> {
   count(where?: string, params?: unknown[]): number {
     const db = getDatabase();
     const sql = `SELECT COUNT(*) as cnt FROM ${this.tableName}${where ? ` WHERE ${where}` : ""}`;
-    const row = db.getFirstSync(sql, params || []) as { cnt: number } | null;
+    const row = db.getFirstSync(sql, (params || []) as any) as { cnt: number } | null;
     return row?.cnt ?? 0;
   }
 }

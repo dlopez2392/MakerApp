@@ -1,14 +1,16 @@
 import { View, Text, Pressable } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   title: string;
-  description: string;
+  description?: string;
+  message?: string;
   actionLabel?: string;
   onAction?: () => void;
 }
 
-export function EmptyState({ title, description, actionLabel, onAction }: EmptyStateProps) {
+export function EmptyState({ title, description, message, actionLabel, onAction }: EmptyStateProps) {
+  const text = description || message;
   const { colors } = useTheme();
 
   return (
@@ -19,12 +21,14 @@ export function EmptyState({ title, description, actionLabel, onAction }: EmptyS
       >
         {title}
       </Text>
-      <Text
-        className="text-[15px] text-center mb-6"
-        style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
-      >
-        {description}
-      </Text>
+      {text && (
+        <Text
+          className="text-[15px] text-center mb-6"
+          style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+        >
+          {text}
+        </Text>
+      )}
       {actionLabel && onAction && (
         <Pressable
           onPress={onAction}

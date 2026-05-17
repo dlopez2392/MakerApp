@@ -18,6 +18,7 @@ import { CalculatorInput } from "../../../../src/design-system/components/Calcul
 import { ResultCard } from "../../../../src/design-system/components/ResultCard";
 import { ActionBar } from "../../../../src/design-system/components/ActionBar";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
+import type { ThemeColors } from "../../../../src/design-system/tokens/colors";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -69,7 +70,7 @@ interface Stock1DVizProps {
   stockLength: number;
   cuts: { length: number; label: string; position: number }[];
   wasteLength: number;
-  colors: ReturnType<typeof useTheme>["colors"];
+  colors: ThemeColors;
 }
 
 function Stock1DViz({ stockLength, cuts, wasteLength, colors }: Stock1DVizProps) {
@@ -137,7 +138,7 @@ interface Sheet2DVizProps {
   sheetHeight: number;
   placements: { width: number; height: number; x: number; y: number; label: string; rotated: boolean }[];
   svgWidth: number;
-  colors: ReturnType<typeof useTheme>["colors"];
+  colors: ThemeColors;
 }
 
 function Sheet2DViz({ sheetWidth, sheetHeight, placements, svgWidth, colors }: Sheet2DVizProps) {
@@ -194,7 +195,7 @@ interface Cut1DRowEditorProps {
   index: number;
   onChange: (id: string, field: keyof Cut1DRow, value: string) => void;
   onRemove: (id: string) => void;
-  colors: ReturnType<typeof useTheme>["colors"];
+  colors: ThemeColors;
 }
 
 function Cut1DRowEditor({ row, index, onChange, onRemove, colors }: Cut1DRowEditorProps) {
@@ -252,7 +253,7 @@ interface Cut2DRowEditorProps {
   index: number;
   onChange: (id: string, field: keyof Cut2DRow, value: string | boolean) => void;
   onRemove: (id: string) => void;
-  colors: ReturnType<typeof useTheme>["colors"];
+  colors: ThemeColors;
 }
 
 function Cut2DRowEditor({ row, index, onChange, onRemove, colors }: Cut2DRowEditorProps) {
@@ -479,7 +480,7 @@ export default function CutListScreen() {
           mode === "1d"
             ? { mode, stockLength, kerfWidth: kerfWidth1D, stockCost, cuts: cuts1D }
             : { mode, sheetWidth, sheetHeight, kerfWidth: kerfWidth2D, cuts: cuts2D },
-        outputsJson: mode === "1d" ? result1D : result2D,
+        outputsJson: (mode === "1d" ? result1D : result2D)!,
         label:
           mode === "1d"
             ? `Cut List 1D — ${result1D!.totalStockNeeded} pcs, ${result1D!.wastePercent}% waste`

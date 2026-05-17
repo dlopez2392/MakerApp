@@ -252,7 +252,7 @@ export default function WoodMovementScreen() {
         {results?.warningFlag && (
           <SafetyWarning
             level="warning"
-            message="Movement exceeds 1/8\". Account for this in joinery — use floating panels, elongated screw holes, or wood movement clips to prevent cracking or joint failure."
+            message={'Movement exceeds 1/8". Account for this in joinery — use floating panels, elongated screw holes, or wood movement clips to prevent cracking or joint failure.'}
           />
         )}
 

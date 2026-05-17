@@ -1,19 +1,21 @@
 import { View, Text, Pressable, Modal } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 
-interface UpgradeModalProps {
+export interface UpgradeModalProps {
   visible: boolean;
-  onDismiss: () => void;
+  onDismiss?: () => void;
+  onClose?: () => void;
   feature: string;
-  limit: string;
+  limit?: string;
 }
 
-export function UpgradeModal({ visible, onDismiss, feature, limit }: UpgradeModalProps) {
+export function UpgradeModal({ visible, onDismiss, onClose, feature, limit = "the free tier" }: UpgradeModalProps) {
+  const dismiss = onDismiss || onClose || (() => {});
   const { colors } = useTheme();
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <Pressable className="flex-1 justify-end" style={{ backgroundColor: "rgba(0,0,0,0.6)" }} onPress={onDismiss}>
+      <Pressable className="flex-1 justify-end" style={{ backgroundColor: "rgba(0,0,0,0.6)" }} onPress={dismiss}>
         <View
           className="rounded-t-2xl p-6 pb-10"
           style={{ backgroundColor: colors.surfaceElevated }}
@@ -40,7 +42,7 @@ export function UpgradeModal({ visible, onDismiss, feature, limit }: UpgradeModa
               Start 7-Day Free Trial
             </Text>
           </Pressable>
-          <Pressable onPress={onDismiss} className="items-center py-2" accessibilityRole="button">
+          <Pressable onPress={dismiss} className="items-center py-2" accessibilityRole="button">
             <Text className="text-[15px]" style={{ fontFamily: "Inter_400Regular", color: colors.textMuted }}>
               Maybe Later
             </Text>

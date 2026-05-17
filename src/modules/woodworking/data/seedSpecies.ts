@@ -1,16 +1,10 @@
 import { woodSpeciesData, WoodSpecies } from "./woodSpecies";
+import { getDatabase } from "../../../core/database/connection";
 
-/**
- * Seeds the wood_species table if it is empty.
- * Expects an expo-sqlite SQLiteDatabase instance.
- */
-export async function seedWoodSpecies(db: {
-  execAsync: (sql: string) => Promise<void>;
-  runAsync: (sql: string, params: unknown[]) => Promise<unknown>;
-  getFirstAsync: (sql: string) => Promise<Record<string, unknown> | null>;
-}): Promise<{ seeded: boolean; count: number }> {
-  // Create table if not exists
-  await db.execAsync(`
+export function seedWoodSpecies(): { seeded: boolean; count: number } {
+  const db = getDatabase();
+
+  db.execSync(`
     CREATE TABLE IF NOT EXISTS wood_species (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       common_name TEXT NOT NULL UNIQUE,
@@ -27,16 +21,14 @@ export async function seedWoodSpecies(db: {
     );
   `);
 
-  // Check if already seeded
-  const row = await db.getFirstAsync("SELECT COUNT(*) as cnt FROM wood_species");
-  const count = (row as { cnt: number } | null)?.cnt ?? 0;
+  const row = db.getFirstSync("SELECT COUNT(*) as cnt FROM wood_species") as { cnt: number } | null;
+  const count = row?.cnt ?? 0;
   if (count > 0) {
     return { seeded: false, count };
   }
 
-  // Insert all species
   for (const species of woodSpeciesData) {
-    await db.runAsync(
+    db.runSync(
       `INSERT INTO wood_species (
         common_name, botanical_name, janka_hardness, density_lbs_ft3,
         tangential_shrinkage, radial_shrinkage, typical_uses, finishing_notes,

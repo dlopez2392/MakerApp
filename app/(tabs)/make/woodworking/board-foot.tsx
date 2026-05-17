@@ -47,7 +47,7 @@ export default function BoardFootScreen() {
   const resultItems = useMemo(() => {
     if (!results) return [];
 
-    const items = [
+    const items: { label: string; value: string; unit?: string; highlight?: boolean }[] = [
       {
         label: "BF per piece",
         value: results.boardFeetPerPiece.toString(),

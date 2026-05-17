@@ -162,8 +162,8 @@ export interface CalculatorResult {
   projectId?: string;
   module: string;
   calculatorType: string;
-  inputsJson: Record<string, unknown>;
-  outputsJson: Record<string, unknown>;
+  inputsJson: object;
+  outputsJson: object;
   label?: string;
   createdAt: string;
 }

@@ -22,7 +22,7 @@ const OPERATION_OPTIONS = [
 export default function FeedsSpeedsScreen() {
   const { colors } = useTheme();
 
-  const [operation, setOperation] = useState<CutType>("pocket");
+  const [operation, setOperation] = useState("pocket");
   const [sfm, setSfm] = useState("");
   const [diameter, setDiameter] = useState("");
   const [flutes, setFlutes] = useState("");
@@ -41,11 +41,8 @@ export default function FeedsSpeedsScreen() {
     if (!sfmVal || !diaVal || !flutesVal || !chiploadVal) return null;
     if (sfmVal <= 0 || diaVal <= 0 || flutesVal <= 0 || chiploadVal <= 0) return null;
 
-    // map UI operation names to engine CutType
     const cutType: CutType =
-      operation === "profile" || operation === "slot" || operation === "drill"
-        ? "slot"
-        : "pocket";
+      operation === "pocket" ? "pocket" : operation === "profile" ? "profile" : "slot";
 
     return calculateFeedsAndSpeeds({
       sfm: sfmVal,

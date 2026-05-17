@@ -7,7 +7,8 @@ describe("Database Schema", () => {
       "projects", "inventory_items", "inventory_deductions", "clients",
       "journal_entries", "quotes", "quote_line_items", "invoices",
       "invoice_line_items", "invoice_payments", "calculator_results",
-      "saved_recipes", "wood_species", "user_settings",
+      "saved_recipes", "wood_species", "laser_materials",
+      "cnc_materials", "cnc_tools", "cnc_tool_usage", "user_settings",
     ];
     expect(tableNames).toEqual(expect.arrayContaining(expected));
     expect(tableNames.length).toBe(expected.length);

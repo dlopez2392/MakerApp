@@ -17,6 +17,7 @@ import { initializeDatabase } from "../src/core/database/connection";
 import { seedWoodSpecies } from "../src/modules/woodworking/data/seedSpecies";
 import { seedLaserMaterials } from "../src/modules/laser/data/seedLaserMaterials";
 import { seedCncData } from "../src/modules/cnc/data/seedCncData";
+import { seedPrintingData } from "../src/modules/printing/data/seedPrintingData";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -37,6 +38,7 @@ export default function RootLayout() {
       seedWoodSpecies();
       seedLaserMaterials();
       seedCncData();
+      seedPrintingData();
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);

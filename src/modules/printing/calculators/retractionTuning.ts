@@ -40,7 +40,7 @@ export interface RetractionResult {
   mathSteps: MathStep[];
 }
 
-export function calculateRetractionTuning(input: RetractionInput): RetractionResult {
+export function calculateRetraction(input: RetractionInput): RetractionResult {
   const { filamentCategory, extruderType, bowdenLengthMm, nozzleDiameter } = input;
 
   const config = BASE_RETRACTION[filamentCategory.toLowerCase()] ?? BASE_RETRACTION["pla"];

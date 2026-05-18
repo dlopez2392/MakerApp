@@ -13,7 +13,7 @@ export interface FlowRateResult {
   mathSteps: MathStep[];
 }
 
-export function calculateFlowRateCalibration(input: FlowRateInput): FlowRateResult {
+export function calculateFlowRate(input: FlowRateInput): FlowRateResult {
   const { requestedLengthMm, measuredLengthMm, currentESteps } = input;
 
   // Correction ratio: how much to scale e-steps

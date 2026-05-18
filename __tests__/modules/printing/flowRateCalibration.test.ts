@@ -1,8 +1,8 @@
-import { calculateFlowRateCalibration } from "../../../src/modules/printing/calculators/flowRateCalibration";
+import { calculateFlowRate } from "../../../src/modules/printing/calculators/flowRateCalibration";
 
 describe("Flow Rate / E-Steps Calibration Calculator", () => {
   test("perfect calibration returns same e-steps", () => {
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 100,
       currentESteps: 93,
@@ -13,7 +13,7 @@ describe("Flow Rate / E-Steps Calibration Calculator", () => {
 
   test("under-extrusion (measured < requested) increases e-steps", () => {
     // 100mm requested, 95mm measured → printer under-extruded → need more steps
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 95,
       currentESteps: 93,
@@ -24,7 +24,7 @@ describe("Flow Rate / E-Steps Calibration Calculator", () => {
   });
 
   test("over-extrusion (measured > requested) decreases e-steps", () => {
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 105,
       currentESteps: 93,
@@ -33,7 +33,7 @@ describe("Flow Rate / E-Steps Calibration Calculator", () => {
   });
 
   test("deviation percent is correct", () => {
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 95,
       currentESteps: 93,
@@ -45,7 +45,7 @@ describe("Flow Rate / E-Steps Calibration Calculator", () => {
   });
 
   test("flowMultiplier = (requested / measured) × 100", () => {
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 95,
       currentESteps: 93,
@@ -55,7 +55,7 @@ describe("Flow Rate / E-Steps Calibration Calculator", () => {
   });
 
   test("mathSteps are populated", () => {
-    const result = calculateFlowRateCalibration({
+    const result = calculateFlowRate({
       requestedLengthMm: 100,
       measuredLengthMm: 95,
       currentESteps: 93,

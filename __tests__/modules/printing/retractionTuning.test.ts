@@ -1,8 +1,8 @@
-import { calculateRetractionTuning } from "../../../src/modules/printing/calculators/retractionTuning";
+import { calculateRetraction } from "../../../src/modules/printing/calculators/retractionTuning";
 
 describe("Retraction Tuning Calculator", () => {
   test("direct drive PLA has short retraction (≤ 2mm)", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "direct",
       bowdenLengthMm: null,
@@ -13,7 +13,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("bowden PLA has longer retraction (> 2mm, ≤ 7mm)", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "bowden",
       bowdenLengthMm: 400,
@@ -24,13 +24,13 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("longer bowden tube increases retraction distance", () => {
-    const short = calculateRetractionTuning({
+    const short = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "bowden",
       bowdenLengthMm: 200,
       nozzleDiameter: 0.4,
     });
-    const long = calculateRetractionTuning({
+    const long = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "bowden",
       bowdenLengthMm: 600,
@@ -40,7 +40,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("TPU/flex triggers a warning", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "tpu",
       extruderType: "direct",
       bowdenLengthMm: null,
@@ -50,7 +50,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("bowden + TPU results in 0 retraction", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "tpu",
       extruderType: "bowden",
       bowdenLengthMm: 400,
@@ -60,7 +60,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("z-hop = nozzle * 0.5", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "direct",
       bowdenLengthMm: null,
@@ -70,7 +70,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("prime amount = retraction * 0.05", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "direct",
       bowdenLengthMm: null,
@@ -80,7 +80,7 @@ describe("Retraction Tuning Calculator", () => {
   });
 
   test("mathSteps are populated", () => {
-    const result = calculateRetractionTuning({
+    const result = calculateRetraction({
       filamentCategory: "pla",
       extruderType: "direct",
       bowdenLengthMm: null,

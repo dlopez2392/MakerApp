@@ -243,6 +243,44 @@ export const TABLE_SCHEMAS: Record<string, string> = {
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
   )`,
+  printer_profiles: `CREATE TABLE IF NOT EXISTS printer_profiles (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  build_volume_x REAL NOT NULL,
+  build_volume_y REAL NOT NULL,
+  build_volume_z REAL NOT NULL,
+  nozzle_diameter REAL NOT NULL DEFAULT 0.4,
+  max_volumetric_flow REAL,
+  extruder_type TEXT NOT NULL DEFAULT 'bowden',
+  bowden_length_mm REAL,
+  steps_per_mm_x REAL,
+  steps_per_mm_y REAL,
+  steps_per_mm_z REAL,
+  steps_per_mm_e REAL,
+  default_speed_mms REAL DEFAULT 50,
+  default_travel_mms REAL DEFAULT 150,
+  is_active INTEGER NOT NULL DEFAULT 0,
+  source TEXT NOT NULL DEFAULT 'user',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
+  printing_filaments: `CREATE TABLE IF NOT EXISTS printing_filaments (
+  id TEXT PRIMARY KEY,
+  category TEXT NOT NULL,
+  name TEXT NOT NULL,
+  print_temp_low INTEGER NOT NULL,
+  print_temp_high INTEGER NOT NULL,
+  bed_temp_low INTEGER NOT NULL,
+  bed_temp_high INTEGER NOT NULL,
+  max_flow_rate REAL NOT NULL,
+  density REAL NOT NULL,
+  retraction_dist_bowden REAL NOT NULL,
+  retraction_dist_direct REAL NOT NULL,
+  retraction_speed REAL NOT NULL,
+  cost_per_kg REAL,
+  notes TEXT,
+  source TEXT NOT NULL DEFAULT 'built-in',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
 };
 
 export const INDEX_SCHEMAS: string[] = [
@@ -265,6 +303,8 @@ export const INDEX_SCHEMAS: string[] = [
   "CREATE INDEX IF NOT EXISTS idx_cnc_materials_category ON cnc_materials(category)",
   "CREATE INDEX IF NOT EXISTS idx_cnc_tools_type ON cnc_tools(tool_type)",
   "CREATE INDEX IF NOT EXISTS idx_cnc_tool_usage_tool ON cnc_tool_usage(tool_id)",
+  "CREATE INDEX IF NOT EXISTS idx_printer_profiles_active ON printer_profiles(is_active)",
+  "CREATE INDEX IF NOT EXISTS idx_printing_filaments_category ON printing_filaments(category)",
 ];
 
 export function getTableNames(): string[] {

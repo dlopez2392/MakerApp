@@ -57,7 +57,7 @@ export default function MaxFlowScreen() {
     if (!results) return null;
     if (results.status === "safe") return colors.success ?? "#22c55e";
     if (results.status === "warning") return colors.warning ?? "#f59e0b";
-    return colors.error ?? "#ef4444";
+    return "#ef4444";
   }, [results, colors]);
 
   const statusLabel = useMemo(() => {

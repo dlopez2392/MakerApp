@@ -232,12 +232,12 @@ export default function PrinterProfilesScreen() {
                   style={{
                     backgroundColor: colors.surface,
                     borderWidth: 1,
-                    borderColor: colors.error ?? "#ef4444",
+                    borderColor: "#ef4444",
                   }}
                 >
                   <Text
                     className="text-[13px]"
-                    style={{ fontFamily: "Inter_500Medium", color: colors.error ?? "#ef4444" }}
+                    style={{ fontFamily: "Inter_500Medium", color: "#ef4444" }}
                   >
                     Delete
                   </Text>

@@ -1,5 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { withLayoutContext } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../../../src/design-system/hooks/useTheme";
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -7,12 +8,13 @@ const TopTabs = withLayoutContext(Navigator);
 
 export default function MakeLayout() {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <TopTabs
       screenOptions={{
         tabBarScrollEnabled: true,
-        tabBarStyle: { backgroundColor: colors.background },
+        tabBarStyle: { backgroundColor: colors.background, marginTop: insets.top },
         tabBarIndicatorStyle: { backgroundColor: colors.primary, height: 3 },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,

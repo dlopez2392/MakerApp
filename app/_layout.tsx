@@ -18,6 +18,7 @@ import { seedWoodSpecies } from "../src/modules/woodworking/data/seedSpecies";
 import { seedLaserMaterials } from "../src/modules/laser/data/seedLaserMaterials";
 import { seedCncData } from "../src/modules/cnc/data/seedCncData";
 import { seedPrintingData } from "../src/modules/printing/data/seedPrintingData";
+import { seedKnifeSteels } from "../src/modules/knife/data/seedKnifeSteels";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +40,7 @@ export default function RootLayout() {
       seedLaserMaterials();
       seedCncData();
       seedPrintingData();
+      seedKnifeSteels();
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);

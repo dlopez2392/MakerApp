@@ -263,6 +263,23 @@ export const TABLE_SCHEMAS: Record<string, string> = {
   source TEXT NOT NULL DEFAULT 'user',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 )`,
+  knife_steels: `CREATE TABLE IF NOT EXISTS knife_steels (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  harden_temp_f INTEGER NOT NULL,
+  soak_minutes INTEGER NOT NULL,
+  quench_medium TEXT NOT NULL,
+  temper_low_f INTEGER NOT NULL,
+  temper_high_f INTEGER NOT NULL,
+  rockwell_low REAL NOT NULL,
+  rockwell_high REAL NOT NULL,
+  normalize_temp_f INTEGER,
+  normalize_cycles INTEGER DEFAULT 3,
+  notes TEXT,
+  source TEXT NOT NULL DEFAULT 'built-in',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
   printing_filaments: `CREATE TABLE IF NOT EXISTS printing_filaments (
   id TEXT PRIMARY KEY,
   category TEXT NOT NULL,
@@ -305,6 +322,7 @@ export const INDEX_SCHEMAS: string[] = [
   "CREATE INDEX IF NOT EXISTS idx_cnc_tool_usage_tool ON cnc_tool_usage(tool_id)",
   "CREATE INDEX IF NOT EXISTS idx_printer_profiles_active ON printer_profiles(is_active)",
   "CREATE INDEX IF NOT EXISTS idx_printing_filaments_category ON printing_filaments(category)",
+  "CREATE INDEX IF NOT EXISTS idx_knife_steels_category ON knife_steels(category)",
 ];
 
 export function getTableNames(): string[] {

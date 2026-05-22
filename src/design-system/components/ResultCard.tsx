@@ -42,7 +42,12 @@ export function ResultCard({ title, results }: ResultCardProps) {
         </Text>
       )}
       {results.map((item, i) => (
-        <View key={i} className={`flex-row justify-between items-baseline ${i > 0 ? "mt-3" : ""}`}>
+        <View
+          key={i}
+          className={`flex-row justify-between items-baseline ${i > 0 ? "mt-3" : ""}`}
+          accessible
+          accessibilityLabel={`${item.label}: ${item.value}${item.unit ? ` ${item.unit}` : ""}`}
+        >
           <Text
             className="text-[13px]"
             style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}

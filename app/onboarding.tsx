@@ -133,7 +133,7 @@ export default function OnboardingScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View className="flex-row justify-end p-4">
         {!isLast && (
-          <Pressable onPress={handleSkip} className="px-4 py-2">
+          <Pressable onPress={handleSkip} className="px-4 py-2" style={{ minHeight: 44, justifyContent: "center" }} accessibilityRole="button" accessibilityLabel="Skip onboarding">
             <Text
               className="text-[14px]"
               style={{ fontFamily: "Inter_500Medium", color: colors.textMuted }}

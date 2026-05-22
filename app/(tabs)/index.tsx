@@ -65,6 +65,8 @@ export default function HomeScreen() {
             borderWidth: 1,
             borderColor: colors.primary + "40",
           }}
+          accessibilityRole="button"
+          accessibilityLabel="Open AI Assistant"
         >
           <View className="flex-1">
             <Text
@@ -92,6 +94,8 @@ export default function HomeScreen() {
             borderWidth: 1,
             borderColor: colors.border,
           }}
+          accessibilityRole="button"
+          accessibilityLabel="View saved recipes"
         >
           <View className="flex-1">
             <Text

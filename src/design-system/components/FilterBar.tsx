@@ -28,9 +28,11 @@ export function FilterBar({ options, selected, onSelect }: FilterBarProps) {
               backgroundColor: isActive ? colors.primary : colors.surface,
               borderWidth: 1,
               borderColor: isActive ? colors.primary : colors.border,
-              minHeight: 36,
+              minHeight: 44,
+              justifyContent: "center",
             }}
             accessibilityRole="button"
+            accessibilityLabel={opt.label}
             accessibilityState={{ selected: isActive }}
           >
             <Text

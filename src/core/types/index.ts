@@ -207,6 +207,17 @@ export interface UserSettings {
   terms?: string;
 }
 
+export type ChatRole = "user" | "assistant" | "system";
+export type SubscriptionTier = "free" | "pro";
+
+export interface ChatMessage {
+  id: string;
+  role: ChatRole;
+  content: string;
+  contextJson?: Record<string, unknown>;
+  createdAt: string;
+}
+
 export const FREE_LIMITS = {
   projects: 10,
   inventoryItems: 50,
@@ -214,4 +225,5 @@ export const FREE_LIMITS = {
   clients: 5,
   activeQuotesInvoices: 3,
   calculatorResultsPerModule: 10,
+  aiMessagesPerDay: 10,
 } as const;

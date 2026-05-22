@@ -280,6 +280,17 @@ export const TABLE_SCHEMAS: Record<string, string> = {
   source TEXT NOT NULL DEFAULT 'built-in',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 )`,
+  chat_messages: `CREATE TABLE IF NOT EXISTS chat_messages (
+  id TEXT PRIMARY KEY,
+  role TEXT NOT NULL,
+  content TEXT NOT NULL,
+  context_json TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)`,
+  subscription: `CREATE TABLE IF NOT EXISTS subscription (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+)`,
   printing_filaments: `CREATE TABLE IF NOT EXISTS printing_filaments (
   id TEXT PRIMARY KEY,
   category TEXT NOT NULL,
@@ -323,6 +334,7 @@ export const INDEX_SCHEMAS: string[] = [
   "CREATE INDEX IF NOT EXISTS idx_printer_profiles_active ON printer_profiles(is_active)",
   "CREATE INDEX IF NOT EXISTS idx_printing_filaments_category ON printing_filaments(category)",
   "CREATE INDEX IF NOT EXISTS idx_knife_steels_category ON knife_steels(category)",
+  "CREATE INDEX IF NOT EXISTS idx_chat_messages_created ON chat_messages(created_at)",
 ];
 
 export function getTableNames(): string[] {

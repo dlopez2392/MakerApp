@@ -1,5 +1,7 @@
 import { SafeAreaView, ScrollView, View, Text, Pressable, Switch, Alert } from "react-native";
+import { useRouter } from "expo-router";
 import { useSettings } from "../../../src/core/hooks/useSettings";
+import { useSubscription } from "../../../src/core/hooks/useSubscription";
 import { useTheme } from "../../../src/design-system/hooks/useTheme";
 import { CalculatorInput } from "../../../src/design-system/components/CalculatorInput";
 import type { UnitSystem } from "../../../src/core/types";
@@ -7,6 +9,8 @@ import type { UnitSystem } from "../../../src/core/types";
 export default function SettingsScreen() {
   const { colors, mode, toggle: toggleTheme } = useTheme();
   const { settings, set } = useSettings();
+  const { tier } = useSubscription();
+  const router = useRouter();
 
   const handleUnitToggle = () => {
     const next: UnitSystem = settings.unitSystem === "imperial" ? "metric" : "imperial";
@@ -20,20 +24,66 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView className="flex-1 p-4" keyboardShouldPersistTaps="handled">
-        <Text className="text-[22px] mb-6" style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}>
+        <Text
+          className="text-[22px] mb-6"
+          style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+        >
           Settings
         </Text>
 
+        {/* Subscription banner */}
+        <Pressable
+          onPress={() => router.push("/upgrade" as any)}
+          className="rounded-xl p-4 mb-6 flex-row items-center justify-between"
+          style={{
+            backgroundColor: tier === "pro" ? "#10b98115" : colors.primary + "15",
+            borderWidth: 1,
+            borderColor: tier === "pro" ? "#10b98140" : colors.primary + "40",
+          }}
+        >
+          <View>
+            <Text
+              className="text-[15px]"
+              style={{
+                fontFamily: "Inter_600SemiBold",
+                color: tier === "pro" ? "#10b981" : colors.primary,
+              }}
+            >
+              {tier === "pro" ? "MakerOS Pro" : "Free Plan"}
+            </Text>
+            <Text
+              className="text-[12px]"
+              style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+            >
+              {tier === "pro" ? "All features unlocked" : "Tap to upgrade"}
+            </Text>
+          </View>
+          <Text className="text-[18px]" style={{ color: colors.textSecondary }}>
+            {"→"}
+          </Text>
+        </Pressable>
+
         <SettingRow label="Unit System" colors={colors}>
-          <Pressable onPress={handleUnitToggle} className="rounded-lg px-3 py-2" style={{ backgroundColor: colors.surfaceElevated }}>
-            <Text className="text-[14px]" style={{ fontFamily: "Inter_500Medium", color: colors.primary }}>
+          <Pressable
+            onPress={handleUnitToggle}
+            className="rounded-lg px-3 py-2"
+            style={{ backgroundColor: colors.surfaceElevated }}
+          >
+            <Text
+              className="text-[14px]"
+              style={{ fontFamily: "Inter_500Medium", color: colors.primary }}
+            >
               {settings.unitSystem === "imperial" ? "Imperial" : "Metric"}
             </Text>
           </Pressable>
         </SettingRow>
 
         <SettingRow label="Dark Mode" colors={colors}>
-          <Switch value={mode === "dark"} onValueChange={toggleTheme} trackColor={{ true: colors.primary }} />
+          <Switch
+            value={mode === "dark"}
+            onValueChange={toggleTheme}
+            trackColor={{ true: colors.primary }}
+          />
         </SettingRow>
 
         <SectionHeader title="Shop Info" colors={colors} />
@@ -88,7 +138,10 @@ export default function SettingsScreen() {
           className="rounded-xl py-4 items-center"
           style={{ backgroundColor: colors.surfaceElevated }}
         >
-          <Text className="text-[14px]" style={{ fontFamily: "Inter_500Medium", color: colors.primary }}>
+          <Text
+            className="text-[14px]"
+            style={{ fontFamily: "Inter_500Medium", color: colors.primary }}
+          >
             Export All Data (CSV)
           </Text>
         </Pressable>
@@ -101,16 +154,35 @@ export default function SettingsScreen() {
 
 function SectionHeader({ title, colors }: { title: string; colors: any }) {
   return (
-    <Text className="text-[12px] uppercase tracking-wider mt-6 mb-3" style={{ fontFamily: "Inter_600SemiBold", color: colors.textSecondary }}>
+    <Text
+      className="text-[12px] uppercase tracking-wider mt-6 mb-3"
+      style={{ fontFamily: "Inter_600SemiBold", color: colors.textSecondary }}
+    >
       {title}
     </Text>
   );
 }
 
-function SettingRow({ label, colors, children }: { label: string; colors: any; children: React.ReactNode }) {
+function SettingRow({
+  label,
+  colors,
+  children,
+}: {
+  label: string;
+  colors: any;
+  children: React.ReactNode;
+}) {
   return (
-    <View className="flex-row justify-between items-center py-4" style={{ borderBottomWidth: 1, borderBottomColor: colors.border }}>
-      <Text className="text-[15px]" style={{ fontFamily: "Inter_500Medium", color: colors.textPrimary }}>{label}</Text>
+    <View
+      className="flex-row justify-between items-center py-4"
+      style={{ borderBottomWidth: 1, borderBottomColor: colors.border }}
+    >
+      <Text
+        className="text-[15px]"
+        style={{ fontFamily: "Inter_500Medium", color: colors.textPrimary }}
+      >
+        {label}
+      </Text>
       {children}
     </View>
   );

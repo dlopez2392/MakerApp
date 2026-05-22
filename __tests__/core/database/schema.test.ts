@@ -10,6 +10,7 @@ describe("Database Schema", () => {
       "saved_recipes", "wood_species", "laser_materials",
       "cnc_materials", "cnc_tools", "cnc_tool_usage", "user_settings",
       "printer_profiles", "printing_filaments", "knife_steels",
+      "chat_messages", "subscription",
     ];
     expect(tableNames).toEqual(expect.arrayContaining(expected));
     expect(tableNames.length).toBe(expected.length);

@@ -56,6 +56,33 @@ export default function HomeScreen() {
           {today}
         </Text>
 
+        {/* AI Assistant */}
+        <Pressable
+          onPress={() => router.push("/ai-chat" as any)}
+          className="rounded-xl p-4 mb-4 flex-row items-center"
+          style={{
+            backgroundColor: colors.primary + "15",
+            borderWidth: 1,
+            borderColor: colors.primary + "40",
+          }}
+        >
+          <View className="flex-1">
+            <Text
+              className="text-[15px] mb-1"
+              style={{ fontFamily: "Inter_600SemiBold", color: colors.primary }}
+            >
+              AI Assistant
+            </Text>
+            <Text
+              className="text-[12px]"
+              style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+            >
+              Ask anything about your craft
+            </Text>
+          </View>
+          <Text className="text-[24px]">{"→"}</Text>
+        </Pressable>
+
         {/* Active Projects */}
         <DashboardSection title="Active Projects" colors={colors}>
           {activeProjects.length === 0 ? (

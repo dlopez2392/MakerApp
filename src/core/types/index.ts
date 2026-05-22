@@ -226,4 +226,5 @@ export const FREE_LIMITS = {
   activeQuotesInvoices: 3,
   calculatorResultsPerModule: 10,
   aiMessagesPerDay: 10,
+  savedRecipesPerModule: 20,
 } as const;

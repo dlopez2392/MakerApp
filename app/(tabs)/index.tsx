@@ -83,6 +83,33 @@ export default function HomeScreen() {
           <Text className="text-[24px]">{"→"}</Text>
         </Pressable>
 
+        {/* Saved Recipes */}
+        <Pressable
+          onPress={() => router.push("/recipes" as any)}
+          className="rounded-xl p-4 mb-4 flex-row items-center"
+          style={{
+            backgroundColor: colors.surface,
+            borderWidth: 1,
+            borderColor: colors.border,
+          }}
+        >
+          <View className="flex-1">
+            <Text
+              className="text-[15px] mb-1"
+              style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+            >
+              Saved Recipes
+            </Text>
+            <Text
+              className="text-[12px]"
+              style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+            >
+              Your saved calculator configurations
+            </Text>
+          </View>
+          <Text className="text-[24px]" style={{ color: colors.textMuted }}>{"→"}</Text>
+        </Pressable>
+
         {/* Active Projects */}
         <DashboardSection title="Active Projects" colors={colors}>
           {activeProjects.length === 0 ? (

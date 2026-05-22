@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SafeAreaView, ScrollView, Text, View, Alert } from "react-native";
 import { calculateBoardFeet, type SurfaceType } from "../../../../src/modules/woodworking/calculators/boardFoot";
 import { CalculatorService } from "../../../../src/core/services/CalculatorService";
+import { RecipeService } from "../../../../src/core/services/RecipeService";
 import { CalculatorInput } from "../../../../src/design-system/components/CalculatorInput";
 import { ResultCard } from "../../../../src/design-system/components/ResultCard";
 import { ActionBar } from "../../../../src/design-system/components/ActionBar";
@@ -98,6 +99,55 @@ export default function BoardFootScreen() {
     Alert.alert("Coming Soon", "Project logging coming soon.");
   };
 
+  const handleSaveAsRecipe = () => {
+    if (!results) {
+      Alert.alert("No Results", "Enter valid dimensions first.");
+      return;
+    }
+    const defaultName = `${results.totalBoardFeet} BF ${surfaceType} — ${new Date().toLocaleDateString()}`;
+    Alert.alert("Save as Recipe", `Save as "${defaultName}"?`, [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Save",
+        onPress: () => {
+          try {
+            RecipeService.create({
+              module: "woodworking",
+              recipeType: "board-foot",
+              name: defaultName,
+              configJson: { thickness, width, length, quantity, price, surfaceType },
+            });
+            Alert.alert("Saved", "Recipe saved successfully.");
+          } catch (e: any) {
+            Alert.alert("Error", e.message || "Failed to save recipe.");
+          }
+        },
+      },
+    ]);
+  };
+
+  const handleLoadRecipe = () => {
+    const recipes = RecipeService.getByModule("woodworking").filter((r) => r.recipeType === "board-foot");
+    if (recipes.length === 0) {
+      Alert.alert("No Recipes", "No saved board foot recipes found.");
+      return;
+    }
+    const buttons = recipes.slice(0, 5).map((r) => ({
+      text: r.name,
+      onPress: () => {
+        const c = r.configJson as Record<string, string>;
+        if (c.thickness) setThickness(c.thickness);
+        if (c.width) setWidth(c.width);
+        if (c.length) setLength(c.length);
+        if (c.quantity) setQuantity(c.quantity);
+        if (c.price) setPrice(c.price);
+        if (c.surfaceType) setSurfaceType(c.surfaceType as SurfaceType);
+      },
+    }));
+    buttons.push({ text: "Cancel", onPress: () => {} });
+    Alert.alert("Load Recipe", "Choose a saved recipe:", buttons);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView className="flex-1 p-4" keyboardShouldPersistTaps="handled">
@@ -185,6 +235,8 @@ export default function BoardFootScreen() {
           onSaveToHistory={handleSave}
           onAddToQuote={handleAddToQuote}
           onLogToProject={handleLogToProject}
+          onSaveAsRecipe={handleSaveAsRecipe}
+          onLoadRecipe={handleLoadRecipe}
         />
 
         <View className="h-8" />

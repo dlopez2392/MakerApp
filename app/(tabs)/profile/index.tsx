@@ -146,6 +146,20 @@ export default function SettingsScreen() {
           </Text>
         </Pressable>
 
+        <SectionHeader title="Help" colors={colors} />
+        <Pressable
+          onPress={() => router.push("/onboarding" as any)}
+          className="rounded-xl py-4 items-center"
+          style={{ backgroundColor: colors.surfaceElevated }}
+        >
+          <Text
+            className="text-[14px]"
+            style={{ fontFamily: "Inter_500Medium", color: colors.primary }}
+          >
+            Replay Welcome Tour
+          </Text>
+        </Pressable>
+
         <View className="h-8" />
       </ScrollView>
     </SafeAreaView>

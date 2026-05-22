@@ -5,6 +5,7 @@ import {
   type LaserOperationType,
 } from "../../../../src/modules/laser/calculators/powerSpeed";
 import { CalculatorService } from "../../../../src/core/services/CalculatorService";
+import { RecipeService } from "../../../../src/core/services/RecipeService";
 import { CalculatorInput } from "../../../../src/design-system/components/CalculatorInput";
 import { ResultCard } from "../../../../src/design-system/components/ResultCard";
 import { ActionBar } from "../../../../src/design-system/components/ActionBar";
@@ -164,6 +165,44 @@ export default function PowerSpeedScreen() {
           onSaveToHistory={handleSave}
           onAddToQuote={() => Alert.alert("Coming Soon", "Quote feature coming soon.")}
           onLogToProject={() => Alert.alert("Coming Soon", "Project logging coming soon.")}
+          onSaveAsRecipe={() => {
+            if (!results) { Alert.alert("No Results", "Enter valid inputs first."); return; }
+            const defaultName = `${operation} ${results.powerPct}%@${results.speedMms}mm/s — ${new Date().toLocaleDateString()}`;
+            Alert.alert("Save as Recipe", `Save as "${defaultName}"?`, [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Save",
+                onPress: () => {
+                  try {
+                    RecipeService.create({
+                      module: "laser",
+                      recipeType: "power-speed",
+                      name: defaultName,
+                      configJson: { operation, targetWattage, thickness, basePower, baseSpeed },
+                    });
+                    Alert.alert("Saved", "Recipe saved successfully.");
+                  } catch (e: any) { Alert.alert("Error", e.message || "Failed to save recipe."); }
+                },
+              },
+            ]);
+          }}
+          onLoadRecipe={() => {
+            const recipes = RecipeService.getByModule("laser").filter((r) => r.recipeType === "power-speed");
+            if (recipes.length === 0) { Alert.alert("No Recipes", "No saved power-speed recipes."); return; }
+            const buttons = recipes.slice(0, 5).map((r) => ({
+              text: r.name,
+              onPress: () => {
+                const c = r.configJson as Record<string, string>;
+                if (c.operation) setOperation(c.operation as LaserOperationType);
+                if (c.targetWattage) setTargetWattage(c.targetWattage);
+                if (c.thickness) setThickness(c.thickness);
+                if (c.basePower) setBasePower(c.basePower);
+                if (c.baseSpeed) setBaseSpeed(c.baseSpeed);
+              },
+            }));
+            buttons.push({ text: "Cancel", onPress: () => {} });
+            Alert.alert("Load Recipe", "Choose a saved recipe:", buttons);
+          }}
         />
 
         <View className="h-8" />

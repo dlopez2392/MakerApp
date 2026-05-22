@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
   useFonts,
@@ -19,11 +19,17 @@ import { seedLaserMaterials } from "../src/modules/laser/data/seedLaserMaterials
 import { seedCncData } from "../src/modules/cnc/data/seedCncData";
 import { seedPrintingData } from "../src/modules/printing/data/seedPrintingData";
 import { seedKnifeSteels } from "../src/modules/knife/data/seedKnifeSteels";
+import { useSettingsStore } from "../src/core/stores/settingsStore";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const router = useRouter();
+  const loadSettings = useSettingsStore((s) => s.load);
+  const onboardingComplete = useSettingsStore((s) => s.onboardingComplete);
+  const settingsLoaded = useSettingsStore((s) => s.loaded);
+
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
@@ -41,9 +47,16 @@ export default function RootLayout() {
       seedCncData();
       seedPrintingData();
       seedKnifeSteels();
+      loadSettings();
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
+
+  useEffect(() => {
+    if (settingsLoaded && !onboardingComplete) {
+      router.replace("/onboarding");
+    }
+  }, [settingsLoaded, onboardingComplete]);
 
   if (!fontsLoaded) return null;
 
@@ -59,6 +72,14 @@ export default function RootLayout() {
         <Stack.Screen
           name="upgrade"
           options={{ presentation: "modal", animation: "slide_from_bottom" }}
+        />
+        <Stack.Screen
+          name="recipes"
+          options={{ presentation: "modal", animation: "slide_from_bottom" }}
+        />
+        <Stack.Screen
+          name="onboarding"
+          options={{ animation: "fade" }}
         />
       </Stack>
     </>

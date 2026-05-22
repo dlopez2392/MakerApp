@@ -5,6 +5,7 @@ import {
   type CutType,
 } from "../../../../src/modules/cnc/calculators/feedsAndSpeeds";
 import { CalculatorService } from "../../../../src/core/services/CalculatorService";
+import { RecipeService } from "../../../../src/core/services/RecipeService";
 import { CalculatorInput } from "../../../../src/design-system/components/CalculatorInput";
 import { ResultCard } from "../../../../src/design-system/components/ResultCard";
 import { ActionBar } from "../../../../src/design-system/components/ActionBar";
@@ -202,6 +203,46 @@ export default function FeedsSpeedsScreen() {
           onSaveToHistory={handleSave}
           onAddToQuote={() => Alert.alert("Coming Soon", "Quote feature coming soon.")}
           onLogToProject={() => Alert.alert("Coming Soon", "Project logging coming soon.")}
+          onSaveAsRecipe={() => {
+            if (!results) { Alert.alert("No Results", "Enter valid inputs first."); return; }
+            const defaultName = `${operation} ${results.rpm}RPM@${results.feedRateIpm}IPM — ${new Date().toLocaleDateString()}`;
+            Alert.alert("Save as Recipe", `Save as "${defaultName}"?`, [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Save",
+                onPress: () => {
+                  try {
+                    RecipeService.create({
+                      module: "cnc",
+                      recipeType: "feeds-speeds",
+                      name: defaultName,
+                      configJson: { operation, sfm, diameter, flutes, chipload, minRpm, maxRpm },
+                    });
+                    Alert.alert("Saved", "Recipe saved successfully.");
+                  } catch (e: any) { Alert.alert("Error", e.message || "Failed to save recipe."); }
+                },
+              },
+            ]);
+          }}
+          onLoadRecipe={() => {
+            const recipes = RecipeService.getByModule("cnc").filter((r) => r.recipeType === "feeds-speeds");
+            if (recipes.length === 0) { Alert.alert("No Recipes", "No saved feeds-speeds recipes."); return; }
+            const buttons = recipes.slice(0, 5).map((r) => ({
+              text: r.name,
+              onPress: () => {
+                const c = r.configJson as Record<string, string>;
+                if (c.operation) setOperation(c.operation);
+                if (c.sfm) setSfm(c.sfm);
+                if (c.diameter) setDiameter(c.diameter);
+                if (c.flutes) setFlutes(c.flutes);
+                if (c.chipload) setChipload(c.chipload);
+                if (c.minRpm) setMinRpm(c.minRpm);
+                if (c.maxRpm) setMaxRpm(c.maxRpm);
+              },
+            }));
+            buttons.push({ text: "Cancel", onPress: () => {} });
+            Alert.alert("Load Recipe", "Choose a saved recipe:", buttons);
+          }}
         />
 
         <View className="h-8" />

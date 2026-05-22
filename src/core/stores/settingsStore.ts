@@ -4,8 +4,10 @@ import { getDatabase } from "../database/connection";
 
 interface SettingsStore extends UserSettings {
   loaded: boolean;
+  onboardingComplete: boolean;
   load: () => void;
   set: <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => void;
+  completeOnboarding: () => void;
 }
 
 function readSetting(key: string): string | null {
@@ -37,6 +39,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   invoicePrefix: "INV",
   terms: undefined,
   loaded: false,
+  onboardingComplete: false,
 
   load: () => {
     const unitSystem = (readSetting("unitSystem") as UnitSystem) || "imperial";
@@ -47,15 +50,21 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     const quotePrefix = readSetting("quotePrefix") || "Q";
     const invoicePrefix = readSetting("invoicePrefix") || "INV";
     const terms = readSetting("terms") || undefined;
+    const onboardingComplete = readSetting("onboardingComplete") === "true";
 
     set({
       unitSystem, shopName, hourlyRate, taxRate, markupPercent,
-      quotePrefix, invoicePrefix, terms, loaded: true,
+      quotePrefix, invoicePrefix, terms, onboardingComplete, loaded: true,
     });
   },
 
   set: (key, value) => {
     writeSetting(key, String(value ?? ""));
     set({ [key]: value } as Partial<SettingsStore>);
+  },
+
+  completeOnboarding: () => {
+    writeSetting("onboardingComplete", "true");
+    set({ onboardingComplete: true });
   },
 }));

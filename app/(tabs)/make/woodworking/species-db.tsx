@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { woodSpeciesData, type WoodSpecies, type PriceTier } from "../../../../src/modules/woodworking/data/woodSpecies";
+import { WoodSwatch } from "../../../../src/modules/woodworking/components/WoodSwatch";
 import { FilterBar } from "../../../../src/design-system/components/FilterBar";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
 
@@ -75,44 +76,49 @@ export default function SpeciesDBScreen() {
       className="rounded-xl p-4 mb-3"
       style={{ backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border }}
     >
-      <View className="flex-row justify-between items-center mb-1">
-        <Text
-          className="text-[16px] flex-1"
-          style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
-        >
-          {item.commonName}
-        </Text>
-        <View
-          className="rounded-full px-2 py-1"
-          style={{ backgroundColor: PRICE_COLORS[item.priceTier] + "20" }}
-        >
+      <View className="flex-row gap-3">
+        <WoodSwatch colorHex={item.colorHex} grainColorHex={item.grainColorHex} size={52} borderRadius={10} />
+        <View className="flex-1">
+          <View className="flex-row justify-between items-center mb-1">
+            <Text
+              className="text-[16px] flex-1"
+              style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+            >
+              {item.commonName}
+            </Text>
+            <View
+              className="rounded-full px-2 py-1"
+              style={{ backgroundColor: PRICE_COLORS[item.priceTier] + "20" }}
+            >
+              <Text
+                className="text-[11px]"
+                style={{ fontFamily: "Inter_500Medium", color: PRICE_COLORS[item.priceTier] }}
+              >
+                {item.priceTier}
+              </Text>
+            </View>
+          </View>
           <Text
-            className="text-[11px]"
-            style={{ fontFamily: "Inter_500Medium", color: PRICE_COLORS[item.priceTier] }}
+            className="text-[12px] italic mb-2"
+            style={{ fontFamily: "Inter_400Regular", color: colors.textMuted }}
           >
-            {item.priceTier}
+            {item.botanicalName}
           </Text>
+          <View className="flex-row gap-4">
+            <Text
+              className="text-[12px]"
+              style={{ fontFamily: "JetBrainsMono_500Medium", color: colors.textSecondary }}
+            >
+              Janka: {item.jankaHardness}
+            </Text>
+            <Text
+              className="text-[12px]"
+              style={{ fontFamily: "JetBrainsMono_500Medium", color: colors.textSecondary }}
+            >
+              {item.densityLbsFt3} lb/ft³
+            </Text>
+          </View>
         </View>
-      </View>
-      <Text
-        className="text-[12px] italic mb-2"
-        style={{ fontFamily: "Inter_400Regular", color: colors.textMuted }}
-      >
-        {item.botanicalName}
-      </Text>
-      <View className="flex-row gap-4">
-        <Text
-          className="text-[12px]"
-          style={{ fontFamily: "JetBrainsMono_500Medium", color: colors.textSecondary }}
-        >
-          Janka: {item.jankaHardness}
-        </Text>
-        <Text
-          className="text-[12px]"
-          style={{ fontFamily: "JetBrainsMono_500Medium", color: colors.textSecondary }}
-        >
-          {item.densityLbsFt3} lb/ft³
-        </Text>
       </View>
     </Pressable>
   );
@@ -167,13 +173,24 @@ export default function SpeciesDBScreen() {
         {selectedSpecies && (
           <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
             <ScrollView className="flex-1 p-4">
-              <View className="flex-row justify-between items-center mb-2">
-                <Text
-                  className="text-[24px] flex-1"
-                  style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
-                >
-                  {selectedSpecies.commonName}
-                </Text>
+              <View className="flex-row justify-between items-start mb-4">
+                <View className="flex-row gap-4 flex-1 items-center">
+                  <WoodSwatch colorHex={selectedSpecies.colorHex} grainColorHex={selectedSpecies.grainColorHex} size={72} borderRadius={14} />
+                  <View className="flex-1">
+                    <Text
+                      className="text-[22px]"
+                      style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+                    >
+                      {selectedSpecies.commonName}
+                    </Text>
+                    <Text
+                      className="text-[13px] italic mt-1"
+                      style={{ fontFamily: "Inter_400Regular", color: colors.textMuted }}
+                    >
+                      {selectedSpecies.botanicalName}
+                    </Text>
+                  </View>
+                </View>
                 <Pressable
                   onPress={() => setSelectedSpecies(null)}
                   className="rounded-full px-3 py-2"
@@ -184,12 +201,6 @@ export default function SpeciesDBScreen() {
                   </Text>
                 </Pressable>
               </View>
-              <Text
-                className="text-[14px] italic mb-6"
-                style={{ fontFamily: "Inter_400Regular", color: colors.textMuted }}
-              >
-                {selectedSpecies.botanicalName}
-              </Text>
 
               <DetailSection title="Physical Properties" colors={colors}>
                 <DetailRow label="Janka Hardness" value={`${selectedSpecies.jankaHardness} lbf`} colors={colors} />

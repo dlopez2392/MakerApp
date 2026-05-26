@@ -4,7 +4,7 @@ describe("2D Cut List Optimizer", () => {
   test("single piece fits on one sheet", () => {
     const result = optimizeCutList2D({
       cuts: [{ width: 24, height: 24, label: "A" }],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
     expect(result.totalSheetsNeeded).toBe(1);
     expect(result.sheets[0].placements).toHaveLength(1);
@@ -16,7 +16,7 @@ describe("2D Cut List Optimizer", () => {
         { width: 24, height: 48, label: "A" },
         { width: 24, height: 48, label: "B" },
       ],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
     expect(result.totalSheetsNeeded).toBe(1);
   });
@@ -24,7 +24,7 @@ describe("2D Cut List Optimizer", () => {
   test("pieces overflow to second sheet", () => {
     const result = optimizeCutList2D({
       cuts: [{ width: 48, height: 96, label: "Full", quantity: 2 }],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
     expect(result.totalSheetsNeeded).toBe(2);
   });
@@ -35,29 +35,24 @@ describe("2D Cut List Optimizer", () => {
         { width: 40, height: 90, label: "Big" },
         { width: 80, height: 6, label: "Strip" },
       ],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
-    // Strip 80x6 won't fit in remaining 8x96 or 48x6 normally,
-    // but 6x80 might fit in 48x6 remaining space (no), needs new sheet
-    // Either way the algorithm should not crash
     expect(result.totalSheetsNeeded).toBeGreaterThanOrEqual(1);
   });
 
   test("grain lock prevents rotation", () => {
     const result = optimizeCutList2D({
       cuts: [{ width: 90, height: 40, label: "GrainLocked", grainLocked: true }],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
-    // 90 > 48 wide and grain locked so can't rotate. 90 > 96? No 90 < 96.
-    // width 90 > sheetWidth 48, can't place at all even rotated (locked).
-    // Should still create a sheet attempt
-    expect(result.totalSheetsNeeded).toBe(1);
+    // 90 > 48 wide and grain locked so can't rotate — unplaceable
+    expect(result.unplacedPieces).toHaveLength(1);
   });
 
   test("waste calculation is correct", () => {
     const result = optimizeCutList2D({
       cuts: [{ width: 24, height: 48, label: "Quarter" }],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
     const sheetArea = 48 * 96;
     const pieceArea = 24 * 48;
@@ -68,9 +63,61 @@ describe("2D Cut List Optimizer", () => {
   test("quantity expansion works", () => {
     const result = optimizeCutList2D({
       cuts: [{ width: 12, height: 12, label: "Tile", quantity: 4 }],
-      sheetWidth: 48, sheetHeight: 96,
+      stocks: [{ width: 48, height: 96 }],
     });
     expect(result.totalSheetsNeeded).toBe(1);
     expect(result.sheets[0].placements).toHaveLength(4);
+  });
+
+  test("multiple stock sizes: uses smallest fitting sheet", () => {
+    const result = optimizeCutList2D({
+      cuts: [{ width: 12, height: 12, label: "Small" }],
+      stocks: [
+        { width: 24, height: 24, cost: 10 },
+        { width: 48, height: 96, cost: 40 },
+      ],
+    });
+    expect(result.totalSheetsNeeded).toBe(1);
+    expect(result.sheets[0].sheetWidth).toBe(24);
+    expect(result.totalCost).toBe(10);
+  });
+
+  test("material matching: cuts only placed on matching stock", () => {
+    const result = optimizeCutList2D({
+      cuts: [
+        { width: 20, height: 20, label: "MDF-Part", material: "MDF" },
+        { width: 20, height: 20, label: "Ply-Part", material: "Plywood" },
+      ],
+      stocks: [
+        { width: 48, height: 96, material: "MDF" },
+        { width: 48, height: 96, material: "Plywood" },
+      ],
+    });
+    expect(result.totalSheetsNeeded).toBe(2);
+    expect(result.sheets[0].stockMaterial).toBe("MDF");
+    expect(result.sheets[1].stockMaterial).toBe("Plywood");
+  });
+
+  test("edge banding increases effective cut size", () => {
+    const result = optimizeCutList2D({
+      cuts: [{
+        width: 47.5,
+        height: 95.5,
+        label: "Tight",
+        edgeBanding: { top: true, bottom: true, left: true, right: true },
+      }],
+      stocks: [{ width: 48, height: 96 }],
+      edgeBandingThickness: 0.5,
+    });
+    // Effective size = 48.5 x 96.5, exceeds 48x96
+    expect(result.unplacedPieces).toHaveLength(1);
+  });
+
+  test("cost tracking across sheets", () => {
+    const result = optimizeCutList2D({
+      cuts: [{ width: 48, height: 96, label: "Full", quantity: 3 }],
+      stocks: [{ width: 48, height: 96, cost: 35 }],
+    });
+    expect(result.totalCost).toBe(105);
   });
 });

@@ -1,4 +1,5 @@
 import { SafeAreaView, ScrollView, View, Text, Pressable, Switch, Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useSettings } from "../../../src/core/hooks/useSettings";
 import { useSubscription } from "../../../src/core/hooks/useSubscription";
@@ -24,12 +25,20 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView className="flex-1 p-4" keyboardShouldPersistTaps="handled">
-        <Text
-          className="text-[22px] mb-6"
-          style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
-        >
-          Settings
-        </Text>
+        <View className="items-center mb-6">
+          <View
+            className="w-20 h-20 rounded-full items-center justify-center mb-3"
+            style={{ backgroundColor: colors.primary + "20" }}
+          >
+            <Ionicons name="person" size={36} color={colors.primary} />
+          </View>
+          <Text
+            className="text-[22px]"
+            style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+          >
+            Settings
+          </Text>
+        </View>
 
         {/* Subscription banner */}
         <Pressable

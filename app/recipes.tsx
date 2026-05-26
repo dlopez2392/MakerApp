@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { SafeAreaView, View, Text, FlatList, Pressable, Alert } from "react-native";
+import { View, Text, FlatList, Pressable, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useRecipes } from "../src/core/hooks/useRecipes";
 import { FilterBar } from "../src/design-system/components/FilterBar";

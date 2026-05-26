@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView, View, Text, Pressable } from "react-native";
+import { ScrollView, View, Text, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTheme } from "../../src/design-system/hooks/useTheme";
 import { useProjects } from "../../src/core/hooks/useProjects";

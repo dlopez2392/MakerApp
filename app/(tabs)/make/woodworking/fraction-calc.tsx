@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   Text,
   View,
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   parseFraction,
   toDecimal,
@@ -335,8 +335,8 @@ export default function FractionCalcScreen() {
           backgroundColor: colors.surface,
           borderWidth: 1,
           borderColor: colors.border,
-          maxHeight: 180,
-          minHeight: 60,
+          maxHeight: 120,
+          minHeight: 50,
         }}
       >
         <ScrollView
@@ -438,7 +438,7 @@ export default function FractionCalcScreen() {
                     borderRadius: 10,
                     alignItems: "center",
                     justifyContent: "center",
-                    paddingVertical: 14,
+                    paddingVertical: 10,
                     borderWidth: 1,
                     borderColor: colors.border,
                   }}

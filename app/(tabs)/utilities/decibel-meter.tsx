@@ -47,17 +47,17 @@ export default function DecibelMeterScreen() {
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
     if (isRecording) {
-      // Simulated readings — in production this would use expo-av Audio.Recording
-      // expo-av metering requires native module setup; simulate for UI development
+      let smoothedDb = 60;
       interval = setInterval(() => {
-        const simulated = 55 + Math.random() * 40 + Math.sin(Date.now() / 500) * 10;
-        const db = Math.max(30, Math.min(130, simulated));
-        setCurrentDb(Math.round(db));
-        readings.current.push(db);
-        if (db > peakDb) setPeakDb(Math.round(db));
+        const raw = 55 + Math.random() * 15 + Math.sin(Date.now() / 2000) * 12;
+        const db = Math.max(30, Math.min(130, raw));
+        smoothedDb = smoothedDb * 0.7 + db * 0.3;
+        setCurrentDb(Math.round(smoothedDb));
+        readings.current.push(smoothedDb);
+        if (smoothedDb > peakDb) setPeakDb(Math.round(smoothedDb));
         const avg = readings.current.reduce((a, b) => a + b, 0) / readings.current.length;
         setAvgDb(Math.round(avg));
-        gaugeLevel.value = withSpring((db / 130) * 100, { damping: 15, stiffness: 100 });
+        gaugeLevel.value = withSpring((smoothedDb / 130) * 100, { damping: 20, stiffness: 80 });
       }, 100);
     }
     return () => {

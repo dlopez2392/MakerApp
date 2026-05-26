@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   TextInput,
@@ -10,6 +9,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useChat } from "../src/core/hooks/useChat";
 import { useSubscription } from "../src/core/hooks/useSubscription";

@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   Pressable,
@@ -8,6 +7,7 @@ import {
   Dimensions,
   type ViewToken,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTheme } from "../src/design-system/hooks/useTheme";
 import { useSettingsStore } from "../src/core/stores/settingsStore";

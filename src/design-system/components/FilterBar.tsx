@@ -16,7 +16,7 @@ export function FilterBar({ options, selected, onSelect }: FilterBarProps) {
   const { colors } = useTheme();
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4" contentContainerStyle={{ gap: 8 }}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4" style={{ flexGrow: 0 }} contentContainerStyle={{ gap: 8, alignItems: "center" }}>
       {options.map((opt) => {
         const isActive = opt.value === selected;
         return (

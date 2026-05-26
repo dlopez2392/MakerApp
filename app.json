@@ -23,7 +23,6 @@
     },
     "android": {
       "package": "com.makeros.app",
-      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0f0f1a"
@@ -45,8 +44,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": ""
-      }
+        "projectId": "05781943-5f29-438a-a040-801b654354c3"
+      },
+      "router": {}
     },
     "owner": "dlopez2392"
   }

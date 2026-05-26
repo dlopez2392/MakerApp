@@ -157,6 +157,18 @@ export default function SettingsScreen() {
 
         <SectionHeader title="Help" colors={colors} />
         <Pressable
+          onPress={() => router.push("/feedback" as any)}
+          className="rounded-xl py-4 items-center mb-3"
+          style={{ backgroundColor: colors.surfaceElevated }}
+        >
+          <Text
+            className="text-[14px]"
+            style={{ fontFamily: "Inter_500Medium", color: colors.primary }}
+          >
+            Report Bug / Request Feature
+          </Text>
+        </Pressable>
+        <Pressable
           onPress={() => router.push("/onboarding" as any)}
           className="rounded-xl py-4 items-center"
           style={{ backgroundColor: colors.surfaceElevated }}

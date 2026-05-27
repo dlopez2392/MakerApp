@@ -7,3 +7,5 @@ export { EmptyState } from "./EmptyState";
 export { UpgradeModal } from "./UpgradeModal";
 export { FilterBar } from "./FilterBar";
 export { StepIndicator } from "./StepIndicator";
+export { ThemedBackground } from "./ThemedBackground";
+export { ThemedCard } from "./ThemedCard";

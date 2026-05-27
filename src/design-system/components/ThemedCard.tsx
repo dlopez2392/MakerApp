@@ -1,4 +1,4 @@
-import { Pressable, Text, type ViewStyle } from "react-native";
+import { Pressable, type ViewStyle } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { getModuleTheme, type ModuleId } from "../tokens/moduleThemes";
 

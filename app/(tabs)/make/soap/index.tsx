@@ -5,6 +5,10 @@ import { useTheme } from "../../../../src/design-system/hooks/useTheme";
 const CALCULATORS = [
   { name: "Lye Calculator", route: "/make/soap/lye-calculator" },
   { name: "Batch Scaler", route: "/make/soap/batch-scaler" },
+  { name: "Fragrance Calc", route: "/make/soap/fragrance-calc" },
+  { name: "Color Additive", route: "/make/soap/color-additive" },
+  { name: "Cure Tracker", route: "/make/soap/cure-tracker" },
+  { name: "Cost Estimator", route: "/make/soap/cost-estimator" },
 ];
 
 export default function SoapHome() {

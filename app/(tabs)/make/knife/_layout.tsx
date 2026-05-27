@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
 
 export default function KnifeLayout() {
-  const { colors } = useTheme();
+  const { colors, setActiveModule } = useTheme();
+
+  useEffect(() => {
+    setActiveModule("knife");
+  }, []);
+
   return (
     <Stack
       screenOptions={{

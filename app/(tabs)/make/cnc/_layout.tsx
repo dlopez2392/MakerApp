@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
 
 export default function CncLayout() {
-  const { colors } = useTheme();
+  const { colors, setActiveModule } = useTheme();
+
+  useEffect(() => {
+    setActiveModule("cnc");
+  }, []);
+
   return (
     <Stack
       screenOptions={{

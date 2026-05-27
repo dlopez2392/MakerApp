@@ -114,7 +114,7 @@ export const MODULE_THEMES: Record<ModuleId, ModuleTheme> = {
   },
   printing: {
     id: 'printing',
-    label: 'Printing',
+    label: '3D Print',
     accent: '#374151',
     accentMuted: '#37415126',
     cardBorderColor: '#37415140',
@@ -125,5 +125,5 @@ export const MODULE_THEMES: Record<ModuleId, ModuleTheme> = {
 };
 
 export function getModuleTheme(id: ModuleId): ModuleTheme {
-  return MODULE_THEMES[id];
+  return MODULE_THEMES[id] ?? MODULE_THEMES.home;
 }

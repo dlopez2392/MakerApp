@@ -1,39 +1,45 @@
-import { View, Text, Pressable, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
+import { ThemedBackground } from "../../../../src/design-system/components/ThemedBackground";
+import { ThemedCard } from "../../../../src/design-system/components/ThemedCard";
 
 const CALCULATORS = [
-  { name: "Board Foot", route: "/make/woodworking/board-foot", icon: "ruler" },
-  { name: "Fractions", route: "/make/woodworking/fraction-calc", icon: "divide" },
-  { name: "Cut List", route: "/make/woodworking/cut-list", icon: "scissors" },
-  { name: "Wood Movement", route: "/make/woodworking/wood-movement", icon: "move" },
-  { name: "Finishing", route: "/make/woodworking/finishing", icon: "droplet" },
-  { name: "Epoxy Resin", route: "/make/woodworking/epoxy", icon: "layers" },
-  { name: "Species DB", route: "/make/woodworking/species-db", icon: "database" },
-  { name: "Pricing", route: "/make/woodworking/pricing", icon: "dollar-sign" },
+  { name: "Board Foot", route: "/make/woodworking/board-foot" },
+  { name: "Fractions", route: "/make/woodworking/fraction-calc" },
+  { name: "Cut List", route: "/make/woodworking/cut-list" },
+  { name: "Wood Movement", route: "/make/woodworking/wood-movement" },
+  { name: "Finishing", route: "/make/woodworking/finishing" },
+  { name: "Epoxy Resin", route: "/make/woodworking/epoxy" },
+  { name: "Species DB", route: "/make/woodworking/species-db" },
+  { name: "Pricing", route: "/make/woodworking/pricing" },
 ];
 
 export default function WoodworkingHome() {
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors, moduleTheme } = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <ThemedBackground module="woodworking">
       <ScrollView className="flex-1 p-4">
+        <Text
+          className="text-[22px] mb-1"
+          style={{ fontFamily: "Inter_600SemiBold", color: colors.textPrimary }}
+        >
+          Woodworking
+        </Text>
+        <Text
+          className="text-[13px] mb-4"
+          style={{ fontFamily: "Inter_400Regular", color: moduleTheme.accent }}
+        >
+          {CALCULATORS.length} calculators
+        </Text>
         <View className="flex-row flex-wrap gap-3">
           {CALCULATORS.map((calc) => (
-            <Pressable
+            <ThemedCard
               key={calc.name}
+              module="woodworking"
               onPress={() => router.push(calc.route as any)}
-              className="rounded-xl p-4 items-center justify-center"
-              style={{
-                backgroundColor: colors.surface,
-                borderWidth: 1,
-                borderColor: colors.border,
-                width: "47%",
-                minHeight: 100,
-              }}
-              accessibilityRole="button"
               accessibilityLabel={calc.name}
             >
               <Text
@@ -42,10 +48,10 @@ export default function WoodworkingHome() {
               >
                 {calc.name}
               </Text>
-            </Pressable>
+            </ThemedCard>
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ThemedBackground>
   );
 }

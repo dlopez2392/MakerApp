@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../../src/design-system/hooks/useTheme";
 
 export default function TabLayout() {
-  const { colors } = useTheme();
+  const { colors, moduleTheme } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -19,7 +19,7 @@ export default function TabLayout() {
           paddingBottom: insets.bottom,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: moduleTheme.accent,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: { fontFamily: "Inter_500Medium", fontSize: 11 },
       }}

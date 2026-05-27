@@ -7,7 +7,7 @@ const { Navigator } = createMaterialTopTabNavigator();
 const TopTabs = withLayoutContext(Navigator);
 
 export default function MakeLayout() {
-  const { colors } = useTheme();
+  const { colors, moduleTheme } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -15,8 +15,8 @@ export default function MakeLayout() {
       screenOptions={{
         tabBarScrollEnabled: true,
         tabBarStyle: { backgroundColor: colors.background, marginTop: insets.top },
-        tabBarIndicatorStyle: { backgroundColor: colors.primary, height: 3 },
-        tabBarActiveTintColor: colors.primary,
+        tabBarIndicatorStyle: { backgroundColor: moduleTheme.accent, height: 3 },
+        tabBarActiveTintColor: moduleTheme.accent,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: { fontFamily: "Inter_600SemiBold", fontSize: 13, textTransform: "none" },
         tabBarItemStyle: { width: "auto", paddingHorizontal: 16 },

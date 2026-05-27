@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { ScrollView, View, Text, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTheme } from "../../src/design-system/hooks/useTheme";
+import { ThemedBackground } from "../../src/design-system/components/ThemedBackground";
 import { useProjects } from "../../src/core/hooks/useProjects";
 import { useInventory } from "../../src/core/hooks/useInventory";
 import { useInvoices } from "../../src/core/hooks/useInvoices";
@@ -22,8 +23,12 @@ const QUICK_CALCS = [
 ];
 
 export default function HomeScreen() {
-  const { colors } = useTheme();
+  const { colors, setActiveModule } = useTheme();
   const router = useRouter();
+
+  useEffect(() => {
+    setActiveModule("home");
+  }, []);
   const { projects } = useProjects();
   const { lowStockItems } = useInventory();
   const { invoices } = useInvoices();
@@ -41,7 +46,7 @@ export default function HomeScreen() {
   const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <ThemedBackground module="home">
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         {/* Greeting */}
         <Text
@@ -217,7 +222,7 @@ export default function HomeScreen() {
 
         <View className="h-8" />
       </ScrollView>
-    </SafeAreaView>
+    </ThemedBackground>
   );
 }
 

@@ -7,6 +7,10 @@ import { ThemedCard } from "../../../../src/design-system/components/ThemedCard"
 const CALCULATORS = [
   { name: "Leather Area", route: "/make/leather/leather-area" },
   { name: "Thread & Stitch", route: "/make/leather/thread-stitch" },
+  { name: "Cost Estimator", route: "/make/leather/cost-estimator" },
+  { name: "Hole Spacing", route: "/make/leather/hole-spacing" },
+  { name: "Dye Coverage", route: "/make/leather/dye-coverage" },
+  { name: "Edge Finishing", route: "/make/leather/edge-finishing" },
 ];
 
 export default function LeatherHome() {

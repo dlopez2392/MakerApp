@@ -1,6 +1,8 @@
-import { View, Text, Pressable, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
+import { ThemedBackground } from "../../../../src/design-system/components/ThemedBackground";
+import { ThemedCard } from "../../../../src/design-system/components/ThemedCard";
 
 const CALCULATORS = [
   { name: "Resin/Hardener Ratio", route: "/make/resin/resin-ratio" },
@@ -14,9 +16,10 @@ const CALCULATORS = [
 
 export default function ResinHome() {
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors, moduleTheme } = useTheme();
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <ThemedBackground module="resin">
       <ScrollView className="flex-1 p-4">
         <Text
           className="text-[22px] mb-1"
@@ -26,24 +29,16 @@ export default function ResinHome() {
         </Text>
         <Text
           className="text-[13px] mb-4"
-          style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+          style={{ fontFamily: "Inter_400Regular", color: moduleTheme.accent }}
         >
           {CALCULATORS.length} calculators
         </Text>
         <View className="flex-row flex-wrap gap-3">
           {CALCULATORS.map((calc) => (
-            <Pressable
+            <ThemedCard
               key={calc.name}
+              module="resin"
               onPress={() => router.push(calc.route as any)}
-              className="rounded-xl p-4 items-center justify-center"
-              style={{
-                backgroundColor: colors.surface,
-                borderWidth: 1,
-                borderColor: colors.border,
-                width: "47%",
-                minHeight: 100,
-              }}
-              accessibilityRole="button"
               accessibilityLabel={calc.name}
             >
               <Text
@@ -52,11 +47,11 @@ export default function ResinHome() {
               >
                 {calc.name}
               </Text>
-            </Pressable>
+            </ThemedCard>
           ))}
         </View>
         <View className="h-8" />
       </ScrollView>
-    </SafeAreaView>
+    </ThemedBackground>
   );
 }

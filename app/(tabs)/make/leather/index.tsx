@@ -1,18 +1,20 @@
-import { View, Text, Pressable, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { useTheme } from "../../../../src/design-system/hooks/useTheme";
+import { ThemedBackground } from "../../../../src/design-system/components/ThemedBackground";
+import { ThemedCard } from "../../../../src/design-system/components/ThemedCard";
 
 const CALCULATORS = [
-  { name: "Leather Area", route: "/make/leather/leather-area", icon: "grid" },
-  { name: "Thread & Stitch", route: "/make/leather/thread-stitch", icon: "scissors" },
+  { name: "Leather Area", route: "/make/leather/leather-area" },
+  { name: "Thread & Stitch", route: "/make/leather/thread-stitch" },
 ];
 
 export default function LeatherHome() {
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors, moduleTheme } = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <ThemedBackground module="leather">
       <ScrollView className="flex-1 p-4">
         <Text
           className="text-[22px] mb-1"
@@ -22,25 +24,16 @@ export default function LeatherHome() {
         </Text>
         <Text
           className="text-[13px] mb-4"
-          style={{ fontFamily: "Inter_400Regular", color: colors.textSecondary }}
+          style={{ fontFamily: "Inter_400Regular", color: moduleTheme.accent }}
         >
-          2 calculators
+          {CALCULATORS.length} calculators
         </Text>
-
         <View className="flex-row flex-wrap gap-3">
           {CALCULATORS.map((calc) => (
-            <Pressable
+            <ThemedCard
               key={calc.name}
+              module="leather"
               onPress={() => router.push(calc.route as any)}
-              className="rounded-xl p-4 items-center justify-center"
-              style={{
-                backgroundColor: colors.surface,
-                borderWidth: 1,
-                borderColor: colors.border,
-                width: "47%",
-                minHeight: 100,
-              }}
-              accessibilityRole="button"
               accessibilityLabel={calc.name}
             >
               <Text
@@ -49,10 +42,10 @@ export default function LeatherHome() {
               >
                 {calc.name}
               </Text>
-            </Pressable>
+            </ThemedCard>
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ThemedBackground>
   );
 }

@@ -6,6 +6,10 @@ const CALCULATORS = [
   { name: "Resin/Hardener Ratio", route: "/make/resin/resin-ratio" },
   { name: "Mold Volume", route: "/make/resin/mold-volume" },
   { name: "Colorant Mix", route: "/make/resin/colorant-mix" },
+  { name: "Cost Estimator", route: "/make/resin/cost-estimator" },
+  { name: "Coating Coverage", route: "/make/resin/coating-coverage" },
+  { name: "Pot Life Timer", route: "/make/resin/pot-life" },
+  { name: "Pressure Pot", route: "/make/resin/pressure-pot" },
 ];
 
 export default function ResinHome() {
